@@ -26,7 +26,7 @@ var hole;
 var attempt1=3,attempt2=3;
 
 
-var result = 'Click a body';
+var introText;
 var Game={
  preload: function(){
 
@@ -290,13 +290,9 @@ update: function() {
     //hole.angle++;
 
     if(success==2){
-    	nextStage();
+    	this.nextStage();
     }
 
-    
-        if(attempt1==0 || attempt2==0){
-            gameOver();
-        }
 
         if(attempt1==3){
 
@@ -322,7 +318,7 @@ update: function() {
     player1_heart.loadTexture('heart0', 0);
     player1_heart.width=90;
     player1_heart.height=35;
-            gameOver();
+            this.gameOver();
         }
 
 
@@ -349,7 +345,7 @@ update: function() {
     player2_heart.loadTexture('heart0', 0);
     player2_heart.width=90;
     player2_heart.height=35;
-            gameOver();
+            this.gameOver();
         }
 },
 	
@@ -414,6 +410,12 @@ nextStage: function(){
 
 },
 gameOver: function(){
-    
+console.log("done");
+    introText = game.add.text(game.world.centerX, 400, 'Game Over!', { font: "40px Arial", fill: "#ffffff", align: "center" });
+    introText.anchor.setTo(0.5, 0.5);
+    introText.visible = true;
+
+
+    game.paused=true;
 }
 };
