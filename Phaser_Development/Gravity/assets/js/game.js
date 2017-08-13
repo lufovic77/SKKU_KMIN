@@ -13,6 +13,8 @@ var switch_on_2;
 var switch_off;
 var switch_var=0;
 
+var game_over,restart,home;
+
 
 var player1_heart, player2_heart;
 
@@ -45,6 +47,9 @@ var Game={
     this.load.image('heart1', './assets/images/heart_1.png');
     this.load.image('heart2', './assets/images/heart_2.png');
     this.load.image('heart3', './assets/images/heart_3.png');
+    this.load.image('game_over', './assets/images/game_over.png');
+    this.load.image('restart', './assets/images/restart.png');
+    this.load.image('home', './assets/images/home.png');
 
 },
 
@@ -215,6 +220,7 @@ create: function() {
 },
 
 update: function() {
+    attempt1=0;
     this.physics.arcade.collide(player2, platforms);
 
     //  Reset the players velocity (movement)
@@ -398,6 +404,8 @@ hitSprite: function(spike,play) {
         player2.reset(1200, this.world.height - 150);
         attempt2--;
     }
+
+
 },
 
  hitHole: function(hole, players) {
@@ -407,15 +415,26 @@ hitSprite: function(spike,play) {
 },
 
 nextStage: function(){
+    game.paused=true;
+    introText = game.add.text(game.world.centerX, 400, 'Success!', { font: "40px Arial", fill: "#000000", align: "center" });
+    introText.anchor.setTo(0.5, 0.5);
+    introText.visible = true;
 
 },
 gameOver: function(){
 console.log("done");
-    introText = game.add.text(game.world.centerX, 400, 'Game Over!', { font: "40px Arial", fill: "#ffffff", align: "center" });
-    introText.anchor.setTo(0.5, 0.5);
-    introText.visible = true;
-
-
     game.paused=true;
+    game_over = this.add.sprite(230,100  , 'game_over');
+    game_over.width=800;
+    game_over.height=400;
+
+    restart=this.add.sprite(730,550,'restart');
+
+
+    home=this.add.sprite(380,530,'home');
+    home.width=110;
+    home.height=110;
+
+
 }
 };
