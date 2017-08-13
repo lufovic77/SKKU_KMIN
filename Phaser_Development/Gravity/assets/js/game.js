@@ -1,7 +1,7 @@
 
 var success=0;
 
-
+var music_back;
 var i;
 var players;
 var player;
@@ -51,9 +51,16 @@ var Game={
     this.load.image('restart', './assets/images/restart.png');
     this.load.image('home', './assets/images/home.png');
 
+
+
+    game.load.audio('background','./assets/musics/background.mp3');
+
 },
 
+
+
 create: function() {
+    //music_back = game.sound.play('background');
 
 	//spike.width = 40;
 	//spike.height = 25;
@@ -220,7 +227,7 @@ create: function() {
 },
 
 update: function() {
-    attempt1=0;
+    //attempt1=0;
     this.physics.arcade.collide(player2, platforms);
 
     //  Reset the players velocity (movement)
@@ -326,6 +333,12 @@ update: function() {
     player1_heart.height=35;
             this.gameOver();
         }
+        if(attempt1<0){
+    player1_heart.loadTexture('heart0', 0);
+    player1_heart.width=90;
+    player1_heart.height=35;
+            
+        }
 
 
         if(attempt2==3){
@@ -352,6 +365,12 @@ update: function() {
     player2_heart.width=90;
     player2_heart.height=35;
             this.gameOver();
+        }
+        if(attempt2<0){
+    player2_heart.loadTexture('heart0', 0);
+    player2_heart.width=90;
+    player2_heart.height=35;
+
         }
 },
 	
@@ -422,19 +441,37 @@ nextStage: function(){
 
 },
 gameOver: function(){
-console.log("done");
-    game.paused=true;
+    attempt1=-1;
+    attempt2=-1;
+    console.log("over");
     game_over = this.add.sprite(230,100  , 'game_over');
     game_over.width=800;
     game_over.height=400;
 
     restart=this.add.sprite(730,550,'restart');
+    restart.inputEnabled = true;
+    restart.events.onInputDown.add(this.reStart, this);
 
 
     home=this.add.sprite(380,530,'home');
     home.width=110;
     home.height=110;
+    home.inputEnabled = true;
+    home.events.onInputDown.add(this.hoMe, this);
+
+  //  game.paused=true;
 
 
+},
+
+reStart: function(){
+    console.log("re?");
+    attempt1=3; 
+    attempt2=3;
+    this.state.start('Game');
+},
+hoMe: function(){
+    console.log("home?");
+    this.state.start('Menu');
 }
 };

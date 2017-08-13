@@ -1,13 +1,17 @@
 var start;
+var music;
 var Menu = {
     preload : function() {
         // load menu image form game object
         game.load.image('back', './assets/images/back.png');
         game.load.image('start', './assets/images/startButton.png');
+
+        game.load.audio('background','./assets/musics/background.mp3');
     },
- 
+
     create: function () {
         // add image
+    	music = game.sound.play('background');
         game.add.sprite(0, 0, 'back');
         start = Menu.add.sprite(640, 350, 'start');
         start.width=100;
