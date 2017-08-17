@@ -6,7 +6,7 @@ var Menu = {
         game.load.image('back', './assets/images/back.png');
         game.load.image('start', './assets/images/startButton.png');
 
-        game.load.audio('background','./assets/musics/background.mp3');
+    game.load.audio('background','./assets/musics/Marimba-Boy.wav');
     },
 
     create: function () {

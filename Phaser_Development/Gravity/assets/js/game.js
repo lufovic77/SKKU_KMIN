@@ -1,7 +1,7 @@
 
 var success=0;
 
-var music_back;
+var music_back,music_jump;
 var i;
 var players;
 var player;
@@ -53,7 +53,8 @@ var Game={
 
 
 
-    game.load.audio('background','./assets/musics/background.mp3');
+    game.load.audio('background','./assets/musics/Marimba-Boy.wav');
+    game.load.audio('jump','./assets/musics/jump.mp3');
 
 },
 
@@ -258,6 +259,7 @@ update: function() {
     //  Allow the player to jump if they are touching the ground.
     if (cursors.up.isDown && player2.body.touching.down)
     {
+            music_jump = game.sound.play('jump');
             player2.body.velocity.y = -320;
     }
     if(switch_var%2==1 && cursors.up.isDown){
@@ -297,6 +299,7 @@ update: function() {
     //  Allow the player to jump if they are touching the ground.
     if (this.upKey.isDown && player.body.touching.down)
     {
+        music_jump = game.sound.play('jump');
         player.body.velocity.y = -320;
     }
 
