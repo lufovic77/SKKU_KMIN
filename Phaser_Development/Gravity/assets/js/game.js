@@ -414,6 +414,7 @@ change: function() {
 
 hitSprite: function(spike,play) {
 
+        console.log("wtf");
     if(play==player){
 	    player.kill();
 	    console.log("wtf");    
