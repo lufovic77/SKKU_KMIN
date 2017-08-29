@@ -1,5 +1,4 @@
 
-var game1 = function (game) {};
 
 var success=0;
 
@@ -29,7 +28,7 @@ var hole;
 
 var attempt1=3,attempt2=3;
 var introText;
-game1.prototype={
+var game1={
  preload: function(){
 
     this.load.image('back', './assets/images/back.png');
@@ -111,39 +110,59 @@ create: function() {
 
 
     // The player and its settings
+    var playerCollisionGroup = game.physics.p2.createCollisionGroup();
+    var spikeCollisionGroup = game.physics.p2.createCollisionGroup();
+    game.physics.p2.updateBoundsCollisionGroup();
 
-    var spikes;
+    var spikes = game.add.group;
+    spikes.enableBody = true;
+    spikes.physicsBodyType = Phaser.Physics.P2JS;
+
     for(i=0;i<2;i++){
-    	spikes = platforms.create(570+40*i,515,'spike');	//making the spikes
+    	var spike= spikes.create(570+40*i,515,'spike');
 
-    	spikes.body.immovable = true;
-    	spikes.width=40;
-   	    spikes.height=25;
-    	spikes.body.collideWorldBounds = true;
-   		spikes.body.onCollide = new Phaser.Signal();	
-   		spikes.body.onCollide.add(this.hitSprite, this);
+    	spike.body.immovable = true;
+    	spike.width=40;
+   	    spike.height=25;
+    	//spikes.body.collideWorldBounds = true;
+        spike.body.setCollisionGroup(spikeCollisionGroup);
+
+        //  Pandas will collide against themselves and the player
+        //  If you don't set this they'll not collide with anything.
+        //  The first parameter is either an array or a single collision group.
+        spike.body.collides([spikeCollisionGroup, playerCollisionGroup]);
 	}
 
     for(i=0;i<3;i++){
-   		spikes = platforms.create(892+40*i,432,'spike');
-        spikes.anchor.setTo(0,.6);
-    	spikes.body.immovable = true;	
-    	spikes.width=40;
+    	var spike= spikes.create(892+40*i,432,'spike');
+        spike.anchor.setTo(0,.6);
+    	spike.body.immovable = true;
+    	spike.width=40;
+   	    spike.height=25;
     	//spikes.height=25;
     	spikes.scale.y*=-1;
-   		spikes.body.onCollide = new Phaser.Signal();	
-   		spikes.body.onCollide.add(this.hitSprite, this);
+        spike.body.setCollisionGroup(spikeCollisionGroup);
+
+        //  Pandas will collide against themselves and the player
+        //  If you don't set this they'll not collide with anything.
+        //  The first parameter is either an array or a single collision group.
+        spike.body.collides([spikeCollisionGroup, playerCollisionGroup]);
     }
 
     for(i=0;i<3;i++){
-   		spikes = platforms.create(580+40*i,312,'spike');
-    	spikes.anchor.setTo(0,.6);
-    	spikes.body.immovable = true;
-    	spikes.width=40;
-      //  spikes.height=25;
+    	var spike= spikes.create(580+40*i,312,'spike');
+        spike.anchor.setTo(0,.6);
+    	spike.body.immovable = true;
+    	spike.width=40;
+   	    spike.height=25;
+    	//spikes.height=25;
     	spikes.scale.y*=-1;
-   		spikes.body.onCollide = new Phaser.Signal();	
-   		spikes.body.onCollide.add(this.hitSprite, this);
+        spike.body.setCollisionGroup(spikeCollisionGroup);
+
+        //  Pandas will collide against themselves and the player
+        //  If you don't set this they'll not collide with anything.
+        //  The first parameter is either an array or a single collision group.
+        spike.body.collides([spikeCollisionGroup, playerCollisionGroup]);
     }
 
     hole=platforms.create(620,220,'hole');
@@ -163,6 +182,9 @@ create: function() {
     player.body.bounce.y = 0.2;
     player.body.gravity.y = 650;
     player.body.collideWorldBounds = true;
+
+    player.body.setCollisionGroup(playerCollisionGroup);
+    player.body.collides(spikeCollisionGroup, this.hitSprite, this);
 
     //  Our two animations, walking left and right.
     player.animations.add('left', [0, 1, 2, 3], 8, true);
