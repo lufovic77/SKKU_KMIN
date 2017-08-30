@@ -25,21 +25,21 @@ var Menu = {
         // add image
     	music = game.sound.play('background');
         game.add.sprite(0, 0, 'back');
-        start = Menu.add.sprite(640, 350, 'start');
+      /*  start = Menu.add.sprite(640, 350, 'start');
         start.width=100;
         start.height=60;
         start.anchor.set(0.5);
         start.inputEnabled = true;     //Sending the signal of clicking the switch button
-        start.events.onInputDown.add(this.startGame, this);
+        start.events.onInputDown.add(this.startGame, this);*/
 
 
         game.add.existing(this.titleText);
 
 
-        startText=game.add.text(80, 330, "Start", 
+        startText=game.add.text(100, 330, "Start", 
         { 
             font: "45px Arial", 
-            fill: "#FDFFB5", 
+            fill: "#ffff44", 
             align: "center" 
         });
 
@@ -53,8 +53,29 @@ var Menu = {
     startText.events.onInputDown.add(this.down, this);
     startText.events.onInputUp.add(this.up, this);
 
+
+        optionText=game.add.text(110, 420, "Option", 
+        { 
+            font: "45px Arial", 
+            fill: "#ffff44", 
+            align: "center" 
+        });
+
+    optionText.anchor.set(0.5);
+
+    optionText.inputEnabled = true;
+
+    optionText.events.onInputOver.add(this.over2, this);
+    optionText.events.onInputOut.add(this.out2, this);
+
+    optionText.events.onInputDown.add(this.down2, this);
+    optionText.events.onInputUp.add(this.up2, this);
+
     },
-    
+    startOption: function(){
+
+    },
+
     startGame: function () {
         // Change the state to the actual game.
         this.state.start('Game');
@@ -62,13 +83,12 @@ var Menu = {
     },
     over: function(item){
 
-    item.fill = "#ffff44";
-    item.text = "clicked " + clicks + " times";
+    item.fill = "#ff0044";
     },
     out: function(item){
         
-    item.fill = "#ff0044";
-    item.text = "click and drag me";
+    item.fill = "#ffff44";
+    item.text = "Start";
     },
 
     down: function(item){
@@ -78,8 +98,30 @@ var Menu = {
     item.text = "clicked " + clicks + " times";
     },
     up: function(item){
+        this.startGame();
+    },
+
+     over2: function(item){
+
+    item.fill = "#ff0044";
+    },
+
+
+    out2: function(item){
         
-    item.text = "thanks for clicking!"; //go to next state
+    item.fill = "#ffff44";
+    item.text = "Option";
+    },
+
+    down2: function(item){
+        
+    clicks++;
+
+    item.text = "clicked " + clicks + " times";
+    },
+
+    up2: function(item){
+       // this.startOption();
     }
 
 
