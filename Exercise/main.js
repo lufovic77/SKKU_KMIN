@@ -1,9 +1,10 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game'), Main = function () {};
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
 
-Main.prototype = {
+var Main= {
 
   preload: function () {
     game.load.image('stars',    'assets/images/stars.jpg');
+    console.log("Hello!")
     game.load.image('loading',  'assets/images/loading.png');
     game.load.image('brand',    'assets/images/logo.png');
     game.load.script('utils',   'lib/utils.js');
