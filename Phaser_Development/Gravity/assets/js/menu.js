@@ -78,7 +78,7 @@ var Menu = {
 
     startGame: function () {
         // Change the state to the actual game.
-        this.state.start('Game');
+        this.state.start('Stage');
         console.log("hello ");
     },
     over: function(item){
@@ -93,9 +93,6 @@ var Menu = {
 
     down: function(item){
         
-    clicks++;
-
-    item.text = "clicked " + clicks + " times";
     },
     up: function(item){
         this.startGame();
@@ -115,9 +112,6 @@ var Menu = {
 
     down2: function(item){
         
-    clicks++;
-
-    item.text = "clicked " + clicks + " times";
     },
 
     up2: function(item){
