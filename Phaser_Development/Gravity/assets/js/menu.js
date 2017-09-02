@@ -11,7 +11,7 @@ var Menu = {
     game.load.audio('background','./assets/musics/Marimba-Boy.wav');
     },
 
-  init: function () {
+    create: function () {
     this.titleText = game.make.text(game.world.centerX, 100, "Gravity", {
         font: 'bold 65px Arial',
       fill: '#FDFFB5',
@@ -19,9 +19,6 @@ var Menu = {
     });
     this.titleText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     this.titleText.anchor.set(0.5);
-   // this.optionCount = 1;
-  },
-    create: function () {
         // add image
     	music = game.sound.play('background');
         game.add.sprite(0, 0, 'back');
