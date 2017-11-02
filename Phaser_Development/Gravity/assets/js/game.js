@@ -52,8 +52,6 @@ var Game={
     this.load.image('home', './assets/images/home.png');
 
 
-
-    game.load.audio('background','./assets/musics/Marimba-Boy.wav');
     game.load.audio('jump','./assets/musics/jump.mp3');
 
 },
@@ -112,9 +110,8 @@ create: function() {
 
     // The player and its settings
 
-    var spikes;
     for(i=0;i<2;i++){
-    	spikes = platforms.create(570+40*i,515,'spike');	//making the spikes
+    	spikes = platforms.create(570+40*1,515,'spike');	//making the spikes
 
     	spikes.body.immovable = true;
     	spikes.width=40;
@@ -230,6 +227,7 @@ create: function() {
 update: function() {
     //attempt1=0;
     this.physics.arcade.collide(player2, platforms);
+    this.physics.arcade.collide(player2, spikes);
 
     //  Reset the players velocity (movement)
     player2.body.velocity.x = 0;
@@ -270,6 +268,7 @@ update: function() {
 
 
     this.physics.arcade.collide(player, platforms);
+    this.physics.arcade.collide(player, spikes);
 
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
