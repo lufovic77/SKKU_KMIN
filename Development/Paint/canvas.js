@@ -61,7 +61,7 @@ function getPosition(event){
 function send(jscolor) {
     // 'jscolor' instance can be used as a string
     console.log(jscolor);
-    document.getElementById('rect').style.backgroundColor = '#' + jscolor
 
+    ctx.strokeStyle='#' + jscolor;
 
 }
