@@ -34,6 +34,7 @@ function listener(event){
 
 function initDraw(event){
 	ctx.beginPath();
+	console.log("canvas1");
 	pos.drawable = true;
 	var coors = getPosition(event);
 	pos.X=coors.X;

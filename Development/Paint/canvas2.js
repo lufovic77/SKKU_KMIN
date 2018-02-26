@@ -34,6 +34,7 @@ function listener(event){
 
 function initDraw(event){
 	ctx2.beginPath();
+	console.log("canvas2");
 	pos2.drawable = true;
 	var coors = getPosition(event);
 	pos2.X=coors.X;
@@ -61,6 +62,7 @@ function getPosition(event){
 function send2(jscolor) {
     // 'jscolor' instance can be used as a string
     console.log(jscolor);
+	console.log("right?");
     ctx2.strokeStyle='#' + jscolor;
 
 }

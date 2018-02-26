@@ -6,7 +6,7 @@ var i;
 var players;
 var player;
 var player2;
-var platforms,spikes;
+var platforms,spikes,holes;
 var cursors;
 var switch_on_1;
 var switch_on_2;
@@ -23,12 +23,47 @@ var rightKey;
 var upKey;
 var downKey;
 
-var hole;
-
 var attempt1=3,attempt2=3;
 
-
 var introText;
+var spike=[];
+/*
+hitSprite: function(spike,play) {
+
+        console.log("wtf");
+    if(play==player){
+	    player.kill();
+	    console.log("wtf");    
+        player.reset(32, this.world.height-150);
+        attempt1--;
+    }
+    if(play==player2){
+        player2.kill();
+        console.log("wtf");    
+        player2.reset(1200, this.world.height - 150);
+        attempt2--;
+    }
+
+
+},*/
+function hitSprite(spike,play) {
+
+        console.log("wtf");
+    if(play==player){
+	    player.kill();
+	    console.log("wtf");    
+        player.reset(32, this.world.height-150);
+        attempt1--;
+    }
+    if(play==player2){
+        player2.kill();
+        console.log("wtf");    
+        player2.reset(1200, this.world.height - 150);
+        attempt2--;
+    }
+
+
+}
 var Game={
  preload: function(){
 
@@ -51,7 +86,6 @@ var Game={
     this.load.image('restart', './assets/images/restart.png');
     this.load.image('home', './assets/images/home.png');
 
-
     game.load.audio('jump','./assets/musics/jump.mp3');
 
 },
@@ -64,6 +98,7 @@ create: function() {
 	//spike.width = 40;
 	//spike.height = 25;
     //  We're going to be using physics, so enable the Arcade Physics system
+   // this.physics.startSystem(Phaser.Physics.P2JS);
     this.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  A simple background for our game
@@ -110,71 +145,36 @@ create: function() {
 
     // The player and its settings
 
-    for(i=0;i<2;i++){
-    	spikes = platforms.create(570+40*1,515,'spike');	//making the spikes
-
-    	spikes.body.immovable = true;
-    	spikes.width=40;
-   	    spikes.height=25;
-    	spikes.body.collideWorldBounds = true;
-   		spikes.body.onCollide = new Phaser.Signal();	
-   		spikes.body.onCollide.add(this.hitSprite, this);
-	}
-
-    for(i=0;i<3;i++){
-   		spikes = platforms.create(892+40*i,432,'spike');
-        spikes.anchor.setTo(0,.6);
-    	spikes.body.immovable = true;	
-    	spikes.width=40;
-    	//spikes.height=25;
-    	spikes.scale.y*=-1;
-   		spikes.body.onCollide = new Phaser.Signal();	
-   		spikes.body.onCollide.add(this.hitSprite, this);
-    }
-
-    for(i=0;i<3;i++){
-   		spikes = platforms.create(580+40*i,312,'spike');
-    	spikes.anchor.setTo(0,.6);
-    	spikes.body.immovable = true;
-    	spikes.width=40;
-      //  spikes.height=25;
-    	spikes.scale.y*=-1;
-   		spikes.body.onCollide = new Phaser.Signal();	
-   		spikes.body.onCollide.add(this.hitSprite, this);
-    }
-
-    hole=platforms.create(620,220,'hole');
-    hole.body.immovable=true;
-    hole.anchor.setTo(0,0);
-   	hole.width=40;
-   	hole.height=40;
-   	hole.body.onCollide = new Phaser.Signal();	
-   	hole.body.onCollide.add(this.hitHole, this);
     
-    player = this.add.sprite(32, this.world.height - 150, 'dude');
-
+    player = game.add.sprite(32, this.world.height - 150, 'dude');
+    player2 = this.add.sprite(1200, this.world.height - 150, 'dude');
     //  We need to enable physics on the player
-    this.physics.enable(player, Phaser.Physics.ARCADE);
+   this.physics.enable(player, Phaser.Physics.ARCADE);
+    //this.physics.enable(player, Phaser.Physics.P2JS);
 
     //  Player physics properties. Give the little guy a slight bounce.
+ 
+  //  game.physics.p2.enable(player, false);   
     player.body.bounce.y = 0.2;
     player.body.gravity.y = 650;
     player.body.collideWorldBounds = true;
-
+  //  player.body.collides(spikeCollisionGroup, this.hitSprite, this);
     //  Our two animations, walking left and right.
     player.animations.add('left', [0, 1, 2, 3], 8, true);
     player.animations.add('right', [5, 6, 7, 8], 8, true);
     //  Our controls.
 
 
-    
-    player2 = this.add.sprite(1200, this.world.height - 150, 'dude');
 
     //  We need to enable physics on the player
     this.physics.enable(player2, Phaser.Physics.ARCADE);
+    //this.physics.enable(player2, Phaser.Physics.P2JS);
 
+    //game.physics.p2.enable(player2, false); 
+   // player2.body.setCollisionGroup(playerCollisionGroup);
+    //player2.body.collides(spikeCollisionGroup, this.hitSprite, this);
     //  Player physics properties. Give the little guy a slight bounce.
-    player2.body.bounce.y = 0.2;
+   	player2.body.bounce.y = 0.2;
     player2.body.gravity.y = 650;
     player2.body.collideWorldBounds = true;
 
@@ -183,6 +183,58 @@ create: function() {
     player2.animations.add('right', [5, 6, 7, 8], 8, true);
 
     
+
+    for(i=0;i<2;i++){
+    	spike[i] = game.add.sprite(570+40*i,515,'spike');	//making the spikes
+
+    	game.physics.arcade.enable([spike[i], player]);
+    	game.physics.arcade.enable([spike[i], player2]);
+    	spike[i].body.immovable = true;
+    	spike[i].width=40;
+   	    spike[i].height=25;
+
+    	spike[i].body.collideWorldBounds = true;
+	}
+
+    for(i=2;i<5;i++){
+   		spike[i] = game.add.sprite(892+40*(i-2),432,'spike');
+    	game.physics.arcade.enable([spike[i], player]);
+    	game.physics.arcade.enable([spike[i], player2]);
+        spike[i].anchor.setTo(0,.6);
+    	spike[i].body.immovable = true;	
+    	spike[i].width=40;
+    	//spikes.height=25;
+    	spike[i].scale.y*=-1;
+
+    	spike[i].body.collideWorldBounds = true;
+    }
+
+    for(i=5;i<8;i++){
+   		spike[i] = game.add.sprite(580+40*(i-5),312,'spike');
+    	game.physics.arcade.enable([spike[i], player]);
+    	game.physics.arcade.enable([spike[i], player2]);
+    	spike[i].anchor.setTo(0,.6);
+    	spike[i].body.immovable = true;
+    	spike[i].width=40;
+      //  spikes.height=25;
+    	spike[i].scale.y*=-1;
+
+    	spike[i].body.collideWorldBounds = true;
+    }
+
+   	spike[0].body.onCollide = new Phaser.Signal();
+   	spike[0].body.onCollide.add(hitSprite, this);
+/*
+    holes=this.add.group();
+    var hole=holes.create(620,220,'hole');
+    hole.body.immovable=true;
+    hole.anchor.setTo(0,0);
+   	hole.width=40;
+   	hole.height=40;
+   	hole.body.onCollide = new Phaser.Signal();	
+   	hole.body.onCollide.add(this.hitHole, this);
+  */  
+
     cursors = this.input.keyboard.createCursorKeys();
 
 	this.leftKey = this.input.keyboard.addKey(Phaser.Keyboard.A);		//for player 2
@@ -227,7 +279,9 @@ create: function() {
 update: function() {
     //attempt1=0;
     this.physics.arcade.collide(player2, platforms);
-    this.physics.arcade.collide(player2, spikes);
+    for(var i=0;i<8;i++){
+    	this.physics.arcade.collide(player2, spike[i]);
+    }
 
     //  Reset the players velocity (movement)
     player2.body.velocity.x = 0;
@@ -268,7 +322,9 @@ update: function() {
 
 
     this.physics.arcade.collide(player, platforms);
-    this.physics.arcade.collide(player, spikes);
+     for(var i=0;i<8;i++){
+    	this.physics.arcade.collide(player, spike[i]);
+    }
 
     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
@@ -411,24 +467,6 @@ change: function() {
 
 },
 
-hitSprite: function(spike,play) {
-
-        console.log("wtf");
-    if(play==player){
-	    player.kill();
-	    console.log("wtf");    
-        player.reset(32, this.world.height-150);
-        attempt1--;
-    }
-    if(play==player2){
-        player2.kill();
-        console.log("wtf");    
-        player2.reset(1200, this.world.height - 150);
-        attempt2--;
-    }
-
-
-},
 
  hitHole: function(hole, players) {
 
